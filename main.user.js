@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Agar.io connector.
-// @version      0.1
+// @version      0.3
 // @description  Adds new features to Agar.io
 // @match        http://agar.io/
 // @grant        none
@@ -1282,7 +1282,7 @@ if (typeof jQuery === 'undefined') {
   };
 
   function createFormElements () {
-  	
+
 	var region = $( '#region' );
 
     if ( region.length ) {
