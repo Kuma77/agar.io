@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Agar.io connector.
-// @version      0.4
+// @version      0.5
 // @description  Adds new features to Agar.io
 // @match        http://agar.io/
 // @grant        none
@@ -60,7 +60,7 @@ if (typeof jQuery === 'undefined') {
   var sizeColors = true;
   var enableZooming = true;
   var restoreTime = true;
-  var imageTransparency = false;
+  var imageTransparency = true;
   var hardMode = false;
   var menuOpened = false;
   var justLostMyCell = false;
@@ -1286,9 +1286,35 @@ if (typeof jQuery === 'undefined') {
 	var region = $( '#region' );
 
     if ( region.length ) {
-        $("<div class=\"form-group\"><input id=\"serverInput\" class=\"form-control\" placeholder=\"255.255.255.255:443\" maxlength=\"20\"></input></div>").insertAfter("#helloDialog > form > div:nth-child(3)");
-        $("<div class=\"form-group\"><button disabled type=\"button\" id=\"connectBtn\" class=\"btn btn-warning btn-needs-server\" onclick=\"connect('ws://' + $('#serverInput').val());\" style=\"width: 100%\">Connect</button></div>").insertAfter($("#serverInput").parent());
-    }
+		$( '#region' ).attr( 'onchange', '' );
+		//function () {
+
+		//	setRegion( $( '#region' ).val() );
+		//	$( '.region-message' ).hide();
+		//	$( '.region-message.' + $( '#region' ).val() ).show();
+		//	$( '.btn-needs-server' ).prop( 'disabled', false );
+		//} );
+		$("<div class=\"form-group\"><input id=\"serverInput\" class=\"form-control\" placeholder=\"255.255.255.255:443\" maxlength=\"20\"></input></div>").insertAfter("#helloDialog > form > div:nth-child(3)");
+		$("<div class=\"form-group\"><button disabled type=\"button\" id=\"connectBtn\" class=\"btn btn-warning btn-needs-server\"  style=\"width: 100%\">Connect</button></div>").insertAfter($("#serverInput").parent());
+		$( '#connectBtn' ).click( function () {
+
+			var ip = $( '#serverInput' ).val();
+
+			if ( ip ) {
+				setRegion( $( '#region' ).val() );
+				$( '.region-message' ).hide();
+				$( '.region-message.' + $( '#region' ).val() ).show();
+				$( '.btn-needs-server' ).prop( 'disabled', false );
+				connect( 'ws://' + $( '#serverInput' ).val() );
+
+			} else {
+				setRegion( $( '#region' ).val() );
+				$( '.region-message' ).hide();
+				$( '.region-message.' + $( '#region' ).val() ).show();
+				$( '.btn-needs-server' ).prop( 'disabled', false );
+			}
+		} );
+	}
     $('.btn-needs-server').prop('disabled', false);
     $("#adsBottom").hide();
     $(".adsbygoogle").hide();
@@ -1305,7 +1331,7 @@ if (typeof jQuery === 'undefined') {
     // enable zoom
     $("#settings div").append($('<label><input type="checkbox" onchange="setZooming($(this).is(\':checked\'));" checked> Mousewheel zoom</label>'));
     // enable image transparency
-    $("#settings div").append($('<label><input type="checkbox" onchange="setTranparent($(this).is(\':checked\'));"> 75% Skin transparency</label>'));
+    $("#settings div").append($('<label><input type="checkbox" onchange="setTranparent($(this).is(\':checked\'));" checked> 75% Skin transparency</label>'));
 
 
     // new global functions
