@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Agar.io connector.
-// @version      0.3
+// @version      0.4
 // @description  Adds new features to Agar.io
 // @match        http://agar.io/
 // @grant        none
@@ -224,8 +224,8 @@ if (typeof jQuery === 'undefined') {
     }, "json");
   }
   window['setNick'] = function (str) {
-    if ($("#srv-ip").val() && socket != null && socket.readyState == socket.OPEN) {
-      connect("ws://" + $("#srv-ip").val());
+    if ($("#serverInput").val() && socket != null && socket.readyState == socket.OPEN) {
+      connect("ws://" + $("#serverInput").val());
     }
     $('#adsBottom').hide();
     pendingNick = str;
@@ -1286,21 +1286,8 @@ if (typeof jQuery === 'undefined') {
 	var region = $( '#region' );
 
     if ( region.length ) {
-
-        var ip = $( '' +
-        	'<div class="form-group">' +
-        		'<input id="srv-ip" class="form-control" placeholder="255.255.255.255:443" maxlength="20">' +
-        		'</input>' +
-        	'</div>'
-        ).insertAfter( '#helloDialog > form > div:nth-child( 3 )' );
-
-        $( '' +
-        	'<div class="form-group">' +
-        		'<button disabled type="button" id="connectBtn" class="btn btn-warning btn-needs-server" onclick="connect( "ws://" + $( "#srv-ip").val());" style="width: 100%">' +
-        			'Connect' +
-        		'</button>' +
-        	'</div>'
-        ).insertAfter( $( '#srv-ip' ).parent() );
+        $("<div class=\"form-group\"><input id=\"serverInput\" class=\"form-control\" placeholder=\"255.255.255.255:443\" maxlength=\"20\"></input></div>").insertAfter("#helloDialog > form > div:nth-child(3)");
+        $("<div class=\"form-group\"><button disabled type=\"button\" id=\"connectBtn\" class=\"btn btn-warning btn-needs-server\" onclick=\"connect('ws://' + $('#serverInput').val());\" style=\"width: 100%\">Connect</button></div>").insertAfter($("#serverInput").parent());
     }
     $('.btn-needs-server').prop('disabled', false);
     $("#adsBottom").hide();
@@ -1340,7 +1327,7 @@ if (typeof jQuery === 'undefined') {
   }
 
   function updateMenuAddress(ip) {
-    $("#srv-ip").val(ip.split("//")[1] || ip);
+    $("#serverInput").val(ip.split("//")[1] || ip);
   }
 
   window.onload = init;
